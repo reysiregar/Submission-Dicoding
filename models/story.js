@@ -1,5 +1,5 @@
 const API_URL = 'https://story-api.dicoding.dev/v1/stories';
-const API_KEY = 'your-api-key-here'; // Ganti dengan API key dari Dicoding
+const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXdpalp4N3Y4N0xTd0J4SDEiLCJpYXQiOjE3NDYzNjM2MzZ9.67XS2BURhH_E2MhXlFk_iJ6qWGyNe4X7JJiLJgTc5bM'; // Ganti dengan API key dari Dicoding
 
 const StoryModel = {
   async fetchStories() {
