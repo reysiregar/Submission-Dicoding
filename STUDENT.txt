@@ -1,3 +1,0 @@
-Nama: Reynaldi Siregar
-API Map: Leaflet
-API Key: [Jika butuh API key, seperti dari MapTiler/Google Maps]

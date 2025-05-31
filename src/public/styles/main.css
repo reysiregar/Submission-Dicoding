@@ -1,0 +1,38 @@
+.skip-link {
+  position: absolute;
+  top: -40px; /* Atau nilai lain untuk menyembunyikan di luar layar */
+  left: 0;
+  background-color: #007bff; /* Warna kontras */
+  color: white;
+  padding: 8px;
+  z-index: 9999; /* Pastikan di atas elemen lain */
+  text-decoration: none;
+  opacity: 0; /* Sembunyikan secara visual */
+  pointer-events: none; /* Tidak bisa diinteraksi saat tersembunyi */
+}
+
+.skip-link:focus {
+  top: 0; /* Munculkan saat mendapat fokus (dari Tab) */
+  opacity: 1;
+  pointer-events: auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto; /* Menjaga aspek rasio */
+}
+
+/* Untuk tablet dan layar lebih kecil */
+@media (max-width: 768px) {
+  .movies-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Kolom lebih kecil */
+  }
+  .movie-item__title { font-size: 1rem; }
+}
+/* Untuk mobile */
+@media (max-width: 480px) {
+  .movies-list {
+    grid-template-columns: 1fr; /* Satu kolom penuh */
+  }
+  /* Sembunyikan elemen yang kurang penting atau ubah layoutnya */
+}
