@@ -1,38 +1,274 @@
 .skip-link {
   position: absolute;
-  top: -40px; /* Atau nilai lain untuk menyembunyikan di luar layar */
+  top: -40px;
   left: 0;
-  background-color: #007bff; /* Warna kontras */
+  background-color: #007bff;
   color: white;
   padding: 8px;
-  z-index: 9999; /* Pastikan di atas elemen lain */
+  z-index: 9999;
   text-decoration: none;
-  opacity: 0; /* Sembunyikan secara visual */
-  pointer-events: none; /* Tidak bisa diinteraksi saat tersembunyi */
+  opacity: 0;
+  pointer-events: none;
 }
 
 .skip-link:focus {
-  top: 0; /* Munculkan saat mendapat fokus (dari Tab) */
+  top: 0;
   opacity: 1;
   pointer-events: auto;
 }
 
 img {
   max-width: 100%;
-  height: auto; /* Menjaga aspek rasio */
+  height: auto;
 }
 
-/* Untuk tablet dan layar lebih kecil */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+app-bar h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+app-bar nav ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+app-bar nav ul li {
+  display: inline;
+  margin: 0 10px;
+}
+app-bar nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+app-bar nav ul li a:hover {
+  text-decoration: underline;
+}
+
+
+main {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content__heading {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.movies-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.movie-item {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.movie-item:hover {
+  transform: translateY(-5px);
+}
+
+.movie-item__link {
+  text-decoration: none;
+  color: inherit; /* Mewarisi warna teks dari parent */
+  display: block; /* Agar seluruh area bisa diklik */
+}
+
+.movie-item__thumbnail {
+  width: 100%;
+  height: auto; /* atau tinggi tetap misal 420px */
+  object-fit: cover; /* Agar gambar tidak gepeng jika rasio beda */
+  display: block; /* Hapus space bawah img */
+}
+
+.movie-item__content {
+  padding: 15px;
+}
+
+.movie-item__title {
+  font-size: 1.2rem;
+  margin: 0 0 10px 0;
+  color: #34495e;
+}
+
+.movie-item__release-date {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-bottom: 5px;
+}
+
+.movie-item__overview {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #34495e;
+}
+
+.movies-not-found, .error-message {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: #7f8c8d;
+}
+
+/* Detail Page Styling */
+.movie-detail-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.movie-detail__title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.movie-detail__poster {
+  display: block;
+  max-width: 400px;
+  margin: 0 auto 20px auto;
+  border-radius: 8px;
+}
+
+.movie-detail__info,
+.movie-detail__overview {
+  margin-bottom: 20px;
+}
+
+.movie-detail__info h3,
+.movie-detail__info h4,
+.movie-detail__overview h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #2c3e50;
+}
+.movie-detail__info h4 {
+  font-size: 1rem;
+  color: #34495e;
+}
+.movie-detail__info p,
+.movie-detail__overview p {
+  margin-bottom: 5px;
+  line-height: 1.6;
+}
+
+
+/* Form Styling */
+.add-movie-form-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 700px; /* Batasi lebar form */
+  margin: 20px auto;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box; /* Agar padding tidak menambah lebar */
+}
+
+.form-group textarea {
+  resize: vertical; /* Hanya bisa di-resize vertikal */
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  margin-top: 30px;
+}
+
+#map { /* Untuk peta di halaman utama */
+  height: 400px;
+  width: 100%;
+  border-radius: 4px; /* Opsional, untuk estetika */
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1); /* Opsional */
+}
+
+#formMap { /* Untuk peta di form */
+  height: 300px;
+  width: 100%;
+  margin-bottom: 15px;
+  border: 1px solid #ddd; /* Memberi batas visual */
+  border-radius: 4px;
+}
+
+/* Pastikan Leaflet container tidak rusak oleh CSS lain */
+.leaflet-container {
+  background: #f0f0f0; /* Warna dasar jika tile lambat dimuat */
+}
+
 @media (max-width: 768px) {
   .movies-list {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Kolom lebih kecil */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
-  .movie-item__title { font-size: 1rem; }
+  .movie-item__title { font-size: 1.1rem; }
+  app-bar h1 { font-size: 1.5rem; }
 }
-/* Untuk mobile */
+
 @media (max-width: 480px) {
   .movies-list {
-    grid-template-columns: 1fr; /* Satu kolom penuh */
+    grid-template-columns: 1fr;
   }
-  /* Sembunyikan elemen yang kurang penting atau ubah layoutnya */
+  main { padding: 10px; }
+  .add-movie-form-container, .movie-detail-container { padding: 15px; }
+  .movie-detail__poster { max-width: 100%; }
 }

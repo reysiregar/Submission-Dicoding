@@ -7,34 +7,77 @@ class Router {
     window.addEventListener('load', this.handleRouteChange.bind(this)); // Untuk initial load
   }
 
-  static async handleRouteChange() {
-    const path = window.location.hash.slice(1).toLowerCase() || '/'; // Ambil path dari hash, default ke '/'
-    const page = routes[path] || routes['/404']; // Cari halaman, atau fallback ke 404
+  static _parseRequestURL() { // Helper untuk mem-parse URL menjadi bagian-bagian yang bisa digunakan
+    const url = window.location.hash.slice(1).toLowerCase();
+    const splittedUrl = url.split('/');
+    return {
+      resource: splittedUrl[1] ? `/${splittedUrl[1]}` : '/',
+      id: splittedUrl[2] || null,
+      verb: splittedUrl[3] || null,
+    };
+  }
 
-    const mainContent = document.querySelector('#main-content'); // Target elemen untuk render
-    if (mainContent) {
-      mainContent.innerHTML = ''; // Kosongkan konten lama
+  static _urlToRoute(parsedUrl) { // Mencocokkan parsed URL dengan definisi rute
+    // Jika ada ID, cari rute yang cocok dengan pola /resource/:id
+    if (parsedUrl.id) {
+      const resourceWithId = `${parsedUrl.resource}/:id`;
+      if (routes[resourceWithId]) {
+        return routes[resourceWithId];
+      }
+    }
+    // Jika tidak ada ID atau tidak ada rute dengan ID yang cocok, cari rute biasa
+    return routes[parsedUrl.resource] || routes['/404']; // Fallback ke /404 jika ada
+  }
+
+  static async _handleRouteChange() {
+    const parsedUrl = this._parseRequestURL();
+    const pageDefinition = this._urlToRoute(parsedUrl); // Cari halaman, atau fallback ke 404
+
+    if (!pageDefinition) {
+      // Jika tidak ada definisi /404, tampilkan pesan error sederhana
+      const mainContentNotFound = document.querySelector('#main-content');
+      if (mainContentNotFound) {
+        mainContentNotFound.innerHTML = '<p>Halaman tidak ditemukan.</p>';
+      }
+      console.error('Page not found and no /404 route defined.');
+      return;
+    }
+
+    const mainContent = document.querySelector('#main-content');
+    if (!mainContent) {
+      console.error("Element with id 'main-content' not found.");
+      return;
+    }
+
+    const updateDOMOperations = async () => {
+        mainContent.innerHTML = ''; // Kosongkan konten lama
       try {
-        const pageInstance = new page(); // Buat instance dari class halaman
-        const renderedPage = await pageInstance.render(); // Panggil method render
+        const pageInstance = new pageDefinition(); // Buat instance dari class halaman
+        // Teruskan ID ke instance halaman jika ada, agar bisa digunakan di render/afterRender
+        if (parsedUrl.id) {
+          pageInstance.id = parsedUrl.id; 
+        }
+
+        const renderedPage = await pageInstance.render();
         if (typeof renderedPage === 'string') {
           mainContent.innerHTML = renderedPage;
         } else if (renderedPage instanceof HTMLElement) {
           mainContent.appendChild(renderedPage);
         }
-        await pageInstance.afterRender(); // Panggil method afterRender jika ada
+        
+        await pageInstance.afterRender();
       } catch (error) {
         console.error('Error rendering page:', error);
-        mainContent.innerHTML = '<p>Error loading page. Please try again later.</p>';
+        mainContent.innerHTML = '<p>Terjadi kesalahan saat memuat halaman.</p>';
       }
+    };
+
+    if (document.startViewTransition) {
+        document.startViewTransition(updateDOMOperations);
     } else {
-      console.error("Element with id 'main-content' not found.");
+        await updateDOMOperations(); // Fallback
     }
   }
 }
-
-document.startViewTransition(async () => {
-  await updateDom();
-});
 
 export default Router;
